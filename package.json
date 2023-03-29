@@ -1,0 +1,32 @@
+{
+  "name": "tactiki",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "scripts": {
+    "client:dev": "cd client && npm run dev",
+    "server:dev": "cd server && npm run dev",
+    "shared:dev": "cd shared && npm run dev",
+    "client:build": "cd client && npm run build",
+    "server:build": "cd server && npm run build",
+    "shared:build": "cd shared && npm run build",
+    "client:start": "cd client && npm run start",
+    "server:start": "cd server && npm run start",
+    "shared:start": "cd shared && npm run start",
+    "dev": "concurrently -c \"magenta,cyan,yellow\" --names \"CLIENT,SERVER,SHARED\" \"npm run client:dev\" \"npm run server:dev\" \"npm run shared:dev\"",
+    "build": "concurrently \"npm run client:build\" \"npm run server:build\" \"npm run shared:build\"",
+    "start": "concurrently \"npm run client:start\" \"npm run server:start\" \"npm run shared:start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "7.6.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "configurations": [
+    {
+      "name": "Debug server",
+      "runtimeVersion": "17.2.0",
+      "runtimeArgs": ["run", "server:dev"],
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "type": "node",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}
