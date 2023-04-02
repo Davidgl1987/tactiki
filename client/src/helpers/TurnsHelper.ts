@@ -1,4 +1,4 @@
-import { createGame, createPlayer, Game } from 'shared'
+import { createGame, createPlayer, Game, startGame } from 'shared'
 import { GameHelper } from './GameHelper'
 
 export class TurnsHelper implements GameHelper {
@@ -7,9 +7,10 @@ export class TurnsHelper implements GameHelper {
     return this.game
   }
   constructor() {
-    this.game = createGame(
+    const game = createGame(
       createPlayer('p1', 'Player 1', 'L'),
       createPlayer('p2', 'Player 2', 'R')
     )
+    this.game = startGame(game)
   }
 }
