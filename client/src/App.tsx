@@ -1,6 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { GameContextProvider } from '@/context/GameContext'
+import { GameContextProvider } from '@/context'
 import { Cpu, Home, Turns, Versus } from '@/views'
 
 function App() {

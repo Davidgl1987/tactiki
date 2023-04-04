@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useToast } from '@chakra-ui/react'
 
 import { useGameContext } from '@/context'
-import { ModalConnect } from '@/components'
-import { useToast } from '@chakra-ui/react'
-import { Game } from '@/components/Game'
+import { ModalConnect, Game } from '@/components'
 
 export function Versus() {
   const { mode, setMode, game } = useGameContext()

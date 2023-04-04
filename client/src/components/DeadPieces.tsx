@@ -1,6 +1,6 @@
 import { Vector3 } from 'three'
 import { Piece as PieceModel, Side } from 'shared'
-import { Piece } from '@/components/Piece'
+import { Piece } from '@/components'
 import { useGameContext } from '@/context'
 
 const deadPositions = [

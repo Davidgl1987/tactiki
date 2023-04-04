@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { Game, Room, RoomId, ServerEvents } from 'shared'
-import { GameHelper, VersusHelper, TurnsHelper, CpuHelper } from '../helpers'
 import { useToast } from '@chakra-ui/react'
 import { Socket } from 'socket.io-client'
+import { Game, Room, ServerEvents } from 'shared'
+import { GameHelper, VersusHelper, TurnsHelper, CpuHelper } from '@/helpers'
 
 type Mode = 'VERSUS' | 'CPU' | 'TURNS' | null
 

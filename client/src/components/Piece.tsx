@@ -2,8 +2,7 @@ import { Center, Text, Text3D } from '@react-three/drei'
 import { ThreeEvent } from '@react-three/fiber'
 import { Piece as PieceModel } from 'shared'
 import { Vector3 } from 'three'
-import TikiModel from '@/components/TikiModel'
-import { useRef } from 'react'
+import { TikiModel } from '@/components'
 
 // https://coolors.co/f4f1de-e07a5f-3d405b-81b29a-f2cc8f
 export const COLORS = {

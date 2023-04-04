@@ -5,8 +5,7 @@ import {
 } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
-import { Board } from './Board'
-import { Ui } from './Ui'
+import { Board, Ui } from '@/components'
 
 export const Game = () => {
   return (

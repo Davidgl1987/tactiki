@@ -1,3 +1,7 @@
+import { useEffect, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
+import { io, Socket } from 'socket.io-client'
 import {
   Client,
   ClientEvents,
@@ -7,10 +11,6 @@ import {
   ServerEvents,
   SERVER_HOST,
 } from 'shared'
-import { useEffect, useRef, useState } from 'react'
-import { io, Socket } from 'socket.io-client'
-import { useParams } from 'react-router-dom'
-import { useToast } from '@chakra-ui/react'
 
 export const useLobby = ({
   onGameStarted,

@@ -1,5 +1,5 @@
 import { createGame, createPlayer, Game, startGame } from 'shared'
-import { GameHelper } from './GameHelper'
+import { GameHelper } from '@/helpers'
 
 export class TurnsHelper implements GameHelper {
   game: Game

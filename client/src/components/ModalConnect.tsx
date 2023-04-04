@@ -19,7 +19,6 @@ import {
 } from '@chakra-ui/react'
 import { CheckIcon } from '@chakra-ui/icons'
 
-import { Client, Room } from 'shared'
 import { useLobby } from '@/hooks'
 import { useGameContext } from '@/context'
 

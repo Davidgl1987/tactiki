@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useGameContext } from '@/context'
-import { Game } from '@/components/Game'
+import { Game } from '@/components'
 
 export function Turns() {
   const { setMode } = useGameContext()

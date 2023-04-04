@@ -12,7 +12,7 @@ type GLTFResult = GLTF & {
   }
 }
 
-export default function TikiModel({ color }: { color: string }) {
+export function TikiModel({ color }: { color: string }) {
   const group = useRef<THREE.Group>(null)
   const { nodes } = useGLTF('/src/assets/tiki_model.gltf') as GLTFResult
 

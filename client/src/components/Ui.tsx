@@ -1,6 +1,5 @@
 import { Button, Box, Image } from '@chakra-ui/react'
-import { UiButton } from './UiButton'
-// import { useSocketContext } from '../context/SocketContext'
+import { UiButton } from '@/components'
 
 export const Ui: React.FC = () => {
   // const { player, rival } = useSocketContext()

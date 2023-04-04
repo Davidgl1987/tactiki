@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Image, Box, Button } from '@chakra-ui/react'
 import shortUUID from 'short-uuid'
-import { Slider } from '@/components/Slider'
+import { Slider } from '@/components'
 
 export function Home() {
   const gid = shortUUID.generate()

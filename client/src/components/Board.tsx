@@ -1,5 +1,5 @@
-import { useGameContext } from '@/context/GameContext'
-import { DeadPieces } from './DeadPieces'
+import { useGameContext } from '@/context'
+import { DeadPieces } from '@/components'
 
 export const Board = () => {
   const { game } = useGameContext()
