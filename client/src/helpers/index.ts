@@ -1,3 +1,4 @@
+export * from './Colors'
 export * from './CpuHelper'
 export * from './GameHelper.d'
 export * from './TurnsHelper'

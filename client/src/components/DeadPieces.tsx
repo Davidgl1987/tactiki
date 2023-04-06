@@ -17,29 +17,28 @@ const deadPositions = [
 ]
 
 export const DeadPieces = ({
+  position,
   deadPieces,
   side,
 }: {
+  position: Vector3
   deadPieces: PieceModel[]
   side: Side
 }) => {
   const { game } = useGameContext()
   if (!game) return null
-  const { board } = game
 
-  const getPosition = (p: number) => {
-    if (side === 'L')
-      return new Vector3(-1 - deadPositions[p].x, -deadPositions[p].y, 0)
-    else return new Vector3(board[0].length + (p % 2), -p % board[0].length, 0)
+  const getPiecePosition = (p: number) => {
+    return new Vector3(-1 - deadPositions[p].x, -deadPositions[p].y, 0)
   }
 
   return (
-    <group>
+    <group position={position}>
       {deadPieces.map((piece, p) => (
         <Piece
           key={piece.id}
           piece={piece}
-          position={getPosition(p)}
+          position={getPiecePosition(p)}
           selected={false}
           onPieceClick={() => console.log('click')}
         />
