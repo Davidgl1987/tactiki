@@ -21,7 +21,7 @@ export const Board = () => {
         {board.map((row, r) =>
           row.map((cell, c) => (
             <React.Fragment key={r.toString() + c.toString()}>
-              <Cell position={{ x: r, y: -c }} cell={cell} />
+              <Cell position={{ x: r, y: c }} cell={cell} />
             </React.Fragment>
           ))
         )}

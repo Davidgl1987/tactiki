@@ -25,7 +25,7 @@ export const DeadPieces = ({
   deadPieces: PieceModel[]
   side: Side
 }) => {
-  const { game } = useGameContext()
+  const { game, selectedPiece, selectPiece } = useGameContext()
   if (!game) return null
 
   const getPiecePosition = (p: number) => {
@@ -39,8 +39,8 @@ export const DeadPieces = ({
           key={piece.id}
           piece={piece}
           position={getPiecePosition(p)}
-          selected={false}
-          onPieceClick={() => console.log('click')}
+          selected={piece.id === selectedPiece?.id}
+          onPieceClick={() => selectPiece(piece)}
         />
       ))}
     </group>

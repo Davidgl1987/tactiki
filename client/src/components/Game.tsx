@@ -6,8 +6,11 @@ import {
 import { Canvas } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
 import { Board, Ui } from '@/components'
+import { useGameContext } from '@/context'
 
 export const Game = () => {
+  const { selectPiece } = useGameContext()
+
   return (
     <>
       <Ui />
@@ -16,7 +19,7 @@ export const Game = () => {
         shadows
         camera={{ position: [-6, 4, 0] }}
         onPointerMissed={() => {
-          // selectedPice != null => selectedPice = null
+          selectPiece(null)
         }}
       >
         <Perf />

@@ -210,28 +210,45 @@ export function makeBattle(state: Game): Game {
   return game
 }
 
-export function getAvailableMoves(state: Game, coord: Coordinates): Move[] {
-  if (state.phase !== Phase.Playing) return []
-  let moves: Move[] = []
-  const cell = state.board[coord.x][coord.y]
-  if (cell.length > 0 && cell[cell.length - 1].side === 'L') {
-    moves.push({ from: coord, to: { x: coord.x + 1, y: coord.y } })
-    moves.push({ from: coord, to: { x: coord.x - 1, y: coord.y } })
-    moves.push({ from: coord, to: { x: coord.x, y: coord.y + 1 } })
+export function getAvailableMoves(
+  state: Game,
+  coord: Coordinates
+): Coordinates[] {
+  let coords: Coordinates[] = []
+  if (state.phase !== Phase.Playing) {
+    const cell = state.board[coord.x][coord.y]
+    if (cell.length > 0 && cell[cell.length - 1].side === 'L') {
+      coords.push({ x: coord.x + 1, y: coord.y })
+      coords.push({ x: coord.x - 1, y: coord.y })
+      coords.push({ x: coord.x, y: coord.y + 1 })
+    }
+    if (cell.length > 0 && cell[cell.length - 1].side === 'R') {
+      coords.push({ x: coord.x + 1, y: coord.y })
+      coords.push({ x: coord.x - 1, y: coord.y })
+      coords.push({ x: coord.x, y: coord.y - 1 })
+    }
+    coords = coords.filter(
+      (coord) =>
+        coord.x < state.board.length &&
+        coord.y < state.board[0].length &&
+        coord.x >= 0 &&
+        coord.y >= 0
+    )
   }
-  if (cell.length > 0 && cell[cell.length - 1].side === 'R') {
-    moves.push({ from: coord, to: { x: coord.x + 1, y: coord.y } })
-    moves.push({ from: coord, to: { x: coord.x - 1, y: coord.y } })
-    moves.push({ from: coord, to: { x: coord.x, y: coord.y - 1 } })
-  }
-  moves = moves.filter(
-    (move) =>
-      move.to.x < state.board.length &&
-      move.to.y < state.board[0].length &&
-      move.to.x >= 0 &&
-      move.to.y >= 0
-  )
-  return moves
+  return coords
+}
+
+export function getAvailableRevives(state: Game, piece: Piece): Coordinates[] {
+  let coords: Coordinates[] = []
+  const firstRow = piece.side === 'L' ? 0 : state.board.length - 1
+  state.board[firstRow].forEach((cell, col) => {
+    if (
+      (state.phase === Phase.Setup && cell.length < 2) ||
+      (state.phase === Phase.Playing && cell.length === 0)
+    )
+      coords.push({ x: firstRow, y: col })
+  })
+  return coords
 }
 
 export function isValidRevive(state: Game, revive: Revive): boolean {
@@ -304,4 +321,13 @@ export function getBoard(state: Game): Board {
 
 export function getPhase(state: Game): Phase {
   return state.phase
+}
+
+export function canSelect(state: Game, piece: Piece): boolean {
+  if (state.currentPlayer !== piece.side) return false
+  if (piece.side === 'L' && !state.deadPiecesL.find((p) => p.id === piece.id))
+    return false
+  if (piece.side === 'R' && !state.deadPiecesR.find((p) => p.id === piece.id))
+    return false
+  return true
 }

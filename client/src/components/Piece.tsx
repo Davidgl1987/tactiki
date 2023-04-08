@@ -3,6 +3,7 @@ import { ThreeEvent } from '@react-three/fiber'
 import { Center, Gltf, Text3D } from '@react-three/drei'
 import { Piece as PieceModel } from 'shared'
 import { COLORS } from '@/helpers'
+import { useGameContext } from '@/context'
 
 type Props = {
   piece: PieceModel
@@ -17,11 +18,16 @@ export const Piece: React.FC<Props> = ({
   selected,
   onPieceClick,
 }) => {
-  const color = selected
-    ? COLORS.GREEN
-    : piece.side === 'L'
-    ? COLORS.RED
-    : COLORS.BLUE
+  const { side } = useGameContext()
+
+  const color =
+    selected && piece.side === 'L'
+      ? COLORS.DARK_RED
+      : selected && piece.side === 'R'
+      ? COLORS.LIGHT_BLUE
+      : piece.side === 'L'
+      ? COLORS.RED
+      : COLORS.BLUE
 
   const handleClick = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation()
@@ -41,16 +47,18 @@ export const Piece: React.FC<Props> = ({
         scale={[0.03, 0.015, 0.03]}
         inject={<meshPhongMaterial color={color} />}
       />
-      <Center position={[0, 0.35, -0.35]}>
-        <Text3D
-          font={'/src/assets/fonts/Nanum.json'}
-          scale={[0.32, 0.32, 0.32]}
-          rotation={[-0.16, Math.PI, 0]}
-        >
-          {piece.value}
-          <meshPhongMaterial color={COLORS.YELLOW} />
-        </Text3D>
-      </Center>
+      {piece.side === side && (
+        <Center position={[0, 0.35, -0.35]}>
+          <Text3D
+            font={'/src/assets/fonts/Nanum.json'}
+            scale={[0.32, 0.32, 0.32]}
+            rotation={[-0.16, Math.PI, 0]}
+          >
+            {piece.value}
+            <meshPhongMaterial color={COLORS.YELLOW} />
+          </Text3D>
+        </Center>
+      )}
     </group>
   )
 }
