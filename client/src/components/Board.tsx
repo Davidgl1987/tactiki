@@ -1,10 +1,10 @@
 import React from 'react'
 import { useGameContext } from '@/context'
-import { Cell, DeadPieces } from '@/components'
+import { Cell, DeadPieces, Piece } from '@/components'
 import { Vector3 } from 'three'
 
 export const Board = () => {
-  const { game } = useGameContext()
+  const { game, selectedPiece } = useGameContext()
 
   if (!game) return null
 
@@ -19,9 +19,18 @@ export const Board = () => {
       />
       <group>
         {board.map((row, r) =>
-          row.map((cell, c) => (
+          row.map((col, c) => (
             <React.Fragment key={r.toString() + c.toString()}>
-              <Cell position={{ x: r, y: c }} cell={cell} />
+              {col.map((piece, p) => (
+                <Piece
+                  key={piece.id}
+                  piece={piece}
+                  position={new Vector3(r, c, p)}
+                  selected={piece.id === selectedPiece?.id}
+                  onPieceClick={() => {}}
+                />
+              ))}
+              <Cell position={{ x: r, y: c }} />
             </React.Fragment>
           ))
         )}

@@ -1,15 +1,13 @@
 import { useGameContext } from '@/context'
-import { COLORS } from '@/helpers'
-import { Piece } from 'shared'
+import { COLORS, CELL_HEIGHT } from '@/helpers'
+
 export const Cell = ({
   position,
-  cell,
 }: {
   position: {
     x: number
     y: number
   }
-  cell: Piece[]
 }) => {
   const { availableMoves } = useGameContext()
   const color = availableMoves.find(
@@ -18,7 +16,10 @@ export const Cell = ({
     ? COLORS.GREEN
     : COLORS.WHITE
   return (
-    <mesh position={[position.x, 0, -position.y]} scale={[0.9, 0.1, 0.9]}>
+    <mesh
+      position={[position.x, 0, -position.y]}
+      scale={[0.9, CELL_HEIGHT, 0.9]}
+    >
       <boxGeometry />
       <meshPhongMaterial color={color} />
     </mesh>

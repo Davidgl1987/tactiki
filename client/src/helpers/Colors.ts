@@ -16,3 +16,5 @@ export const COLORS = {
   LIGHT_YELLOW: '#f6dcb1',
   DARK_YELLOW: '#e5991f',
 }
+
+export const CELL_HEIGHT = 0.1
