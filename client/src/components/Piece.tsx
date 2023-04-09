@@ -10,7 +10,7 @@ type Props = {
   piece: PieceModel
   position: Vector3
   selected: boolean
-  onPieceClick: any
+  onPieceClick: () => void
 }
 
 export const Piece: React.FC<Props> = ({
@@ -27,10 +27,10 @@ export const Piece: React.FC<Props> = ({
     selected && piece.side === 'L'
       ? COLORS.DARK_RED
       : selected && piece.side === 'R'
-      ? COLORS.LIGHT_BLUE
+      ? COLORS.BLUE
       : piece.side === 'L'
       ? COLORS.RED
-      : COLORS.BLUE
+      : COLORS.LIGHT_BLUE
 
   const handleClick = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation()

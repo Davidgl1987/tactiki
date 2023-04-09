@@ -1,8 +1,11 @@
-import { Button, Box, Image } from '@chakra-ui/react'
+import { Box, Center } from '@chakra-ui/react'
 import { UiButton } from '@/components'
+import { useGameContext } from '@/context'
 
 export const Ui: React.FC = () => {
-  // const { player, rival } = useSocketContext()
+  const { game } = useGameContext()
+  if (!game) return null
+
   const player = { name: '' },
     rival = { name: '' }
   if (!player || !rival) return null
@@ -44,11 +47,12 @@ export const Ui: React.FC = () => {
           <span>{player.name}</span>
         </UiButton>
       </UiBottomLeft>
-      {/* <UiBottomCenter>
-        <UiButton onClick={() => console.log('click')}>
-          <Image src="/src/assets/icons/menu-white.svg" alt="menu" />
-        </UiButton>
-      </UiBottomCenter> */}
+      <UiBottomCenter>
+        <Center color="white" fontWeight="bold">
+          Turns {game.currentPlayer === 'L' ? 'red' : 'blue'}{' '}
+          {game.currentPlayerTurns}
+        </Center>
+      </UiBottomCenter>
       <UiBottomRight>
         <UiButton onClick={() => console.log('click')}>
           <span>{rival.name}</span>

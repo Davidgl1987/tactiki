@@ -215,7 +215,7 @@ export function getAvailableMoves(
   coord: Coordinates
 ): Coordinates[] {
   let coords: Coordinates[] = []
-  if (state.phase !== Phase.Playing) {
+  if (state.phase === Phase.Playing) {
     const cell = state.board[coord.x][coord.y]
     if (cell.length > 0 && cell[cell.length - 1].side === 'L') {
       coords.push({ x: coord.x + 1, y: coord.y })
@@ -325,9 +325,11 @@ export function getPhase(state: Game): Phase {
 
 export function canSelect(state: Game, piece: Piece): boolean {
   if (state.currentPlayer !== piece.side) return false
-  if (piece.side === 'L' && !state.deadPiecesL.find((p) => p.id === piece.id))
-    return false
-  if (piece.side === 'R' && !state.deadPiecesR.find((p) => p.id === piece.id))
-    return false
+  if (state.phase === Phase.Setup) {
+    if (piece.side === 'L' && !state.deadPiecesL.find((p) => p.id === piece.id))
+      return false
+    if (piece.side === 'R' && !state.deadPiecesR.find((p) => p.id === piece.id))
+      return false
+  }
   return true
 }

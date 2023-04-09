@@ -19,13 +19,14 @@ const deadPositions = [
 export const DeadPieces = ({
   position,
   deadPieces,
-  side,
+  handleClickPiece,
 }: {
   position: Vector3
   deadPieces: PieceModel[]
   side: Side
+  handleClickPiece: (piece: PieceModel) => void
 }) => {
-  const { game, selectedPiece, selectPiece } = useGameContext()
+  const { game, selectedPiece } = useGameContext()
   if (!game) return null
 
   const getPiecePosition = (p: number) => {
@@ -40,7 +41,7 @@ export const DeadPieces = ({
           piece={piece}
           position={getPiecePosition(p)}
           selected={piece.id === selectedPiece?.id}
-          onPieceClick={() => selectPiece(piece)}
+          onPieceClick={() => handleClickPiece(piece)}
         />
       ))}
     </group>
