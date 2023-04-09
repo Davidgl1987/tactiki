@@ -8,8 +8,8 @@ export interface Game {
   board: Board
   playerL: Player
   playerR: Player
-  deadPiecesL: Piece[]
-  deadPiecesR: Piece[]
+  deadPiecesL: (Piece | null)[]
+  deadPiecesR: (Piece | null)[]
   currentPlayer: Side
   currentPlayerTurns: number
   phase: Phase

@@ -1,11 +1,12 @@
 import React from 'react'
+
+import { Coordinates, Piece as PieceModel } from 'shared'
 import { useGameContext } from '@/context'
 import { Cell, DeadPieces, Piece } from '@/components'
-import { Vector3 } from 'three'
-import { Coordinates, Piece as PieceModel } from 'shared'
 
 export const Board = () => {
-  const { game, selectedPiece, selectPiece } = useGameContext()
+  const { game, selectedPiece, selectPiece, isValidMovement, movePiece } =
+    useGameContext()
 
   if (!game) return null
 
@@ -19,13 +20,19 @@ export const Board = () => {
     const nPieces = board[coords.x][coords.y].length
     if (nPieces === 0) return
     const piece = board[coords.x][coords.y][nPieces - 1]
-    selectPiece(piece, coords)
+    if (!selectedPiece) selectPiece(piece, coords)
+    else movePiece(coords)
+  }
+
+  const handleCellClick = (coords: Coordinates) => {
+    const isValid = isValidMovement(coords)
+    if (isValid) movePiece(coords)
   }
 
   return (
     <group position={[-2, 0, 2]}>
       <DeadPieces
-        position={new Vector3(0, 0, 0)}
+        position={{ x: 0, y: 0, z: 0 }}
         deadPieces={deadPiecesL}
         side="L"
         handleClickPiece={handleDeadPieceClick}
@@ -38,18 +45,21 @@ export const Board = () => {
                 <Piece
                   key={piece.id}
                   piece={piece}
-                  position={new Vector3(r, c, p)}
+                  position={{ x: r, y: c, z: p }}
                   selected={piece.id === selectedPiece?.id}
                   onPieceClick={() => handleBoardPieceClick({ x: r, y: c })}
                 />
               ))}
-              <Cell position={{ x: r, y: c }} />
+              <Cell
+                position={{ x: r, y: c }}
+                onCellClick={() => handleCellClick({ x: r, y: c })}
+              />
             </React.Fragment>
           ))
         )}
       </group>
       <DeadPieces
-        position={new Vector3(board.length + 2, 0, 0)}
+        position={{ x: board.length + 2, y: 0, z: 0 }}
         deadPieces={deadPiecesR}
         side="R"
         handleClickPiece={handleDeadPieceClick}

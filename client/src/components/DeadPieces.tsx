@@ -1,7 +1,6 @@
-import { Vector3 } from 'three'
 import { Piece as PieceModel, Side } from 'shared'
-import { Piece } from '@/components'
 import { useGameContext } from '@/context'
+import { Piece } from '@/components'
 
 const deadPositions = [
   { x: 0, y: 0 },
@@ -21,8 +20,8 @@ export const DeadPieces = ({
   deadPieces,
   handleClickPiece,
 }: {
-  position: Vector3
-  deadPieces: PieceModel[]
+  position: { x: number; y: number; z: number }
+  deadPieces: (PieceModel | null)[]
   side: Side
   handleClickPiece: (piece: PieceModel) => void
 }) => {
@@ -30,20 +29,22 @@ export const DeadPieces = ({
   if (!game) return null
 
   const getPiecePosition = (p: number) => {
-    return new Vector3(-1 - deadPositions[p].x, -deadPositions[p].y, 0)
+    return { x: -1 - deadPositions[p].x, y: deadPositions[p].y, z: 0 }
   }
 
   return (
-    <group position={position}>
-      {deadPieces.map((piece, p) => (
-        <Piece
-          key={piece.id}
-          piece={piece}
-          position={getPiecePosition(p)}
-          selected={piece.id === selectedPiece?.id}
-          onPieceClick={() => handleClickPiece(piece)}
-        />
-      ))}
+    <group position={[position.x, position.y, position.z]}>
+      {deadPieces.map((piece, p) =>
+        !piece ? null : (
+          <Piece
+            key={piece.id}
+            piece={piece}
+            position={getPiecePosition(p)}
+            selected={piece.id === selectedPiece?.id}
+            onPieceClick={() => handleClickPiece(piece)}
+          />
+        )
+      )}
     </group>
   )
 }

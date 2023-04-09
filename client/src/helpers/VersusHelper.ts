@@ -1,5 +1,6 @@
 import { Game } from 'shared'
 import { Socket } from 'socket.io-client'
+
 import { GameHelper } from '@/helpers'
 
 export class VersusHelper implements GameHelper {

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { Socket } from 'socket.io-client'
+
 import {
   canSelect,
   Game,
@@ -11,6 +12,10 @@ import {
   ServerEvents,
   Side,
   getAvailableMoves,
+  isValidRevive,
+  isValidMove,
+  makeMove,
+  makeRevive,
 } from 'shared'
 import { GameHelper, VersusHelper, TurnsHelper, CpuHelper } from '@/helpers'
 
@@ -31,6 +36,8 @@ interface Context {
   selectedPiece: Piece | null
   selectPiece: (piece: Piece | null, coords?: Coordinates) => void
   availableMoves: Coordinates[]
+  movePiece: (coords: Coordinates) => void
+  isValidMovement: (to: Coordinates) => boolean
 }
 
 const GameContext = createContext<Context>({
@@ -48,6 +55,10 @@ const GameContext = createContext<Context>({
   selectedPiece: null,
   selectPiece: () => {},
   availableMoves: [],
+  movePiece: () => {},
+  isValidMovement: () => {
+    return true
+  },
 })
 
 type Props = {
@@ -61,6 +72,7 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
   const [side, setSide] = useState<Side | null>(null)
   const [selectedPiece, setSelectedPiece] = useState<Piece | null>(null)
   const [availableMoves, setAvailableMoves] = useState<Coordinates[]>([])
+  const [fromCoords, setFromCoords] = useState<Coordinates | null>(null)
 
   const [socket, setSocket] = useState<Socket | null>(null)
   const [room, setRoom] = useState<Room | null>(null)
@@ -74,7 +86,7 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
       if (piece !== null) {
         const deadPieces =
           piece.side === 'L' ? game.deadPiecesL : game.deadPiecesR
-        if (deadPieces.find((p) => p.id === piece.id)) {
+        if (deadPieces.find((p) => p?.id === piece.id)) {
           setAvailableMoves(getAvailableRevives(game, piece))
         } else if (coords) {
           setAvailableMoves(getAvailableMoves(game, coords))
@@ -83,6 +95,7 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
         setAvailableMoves([])
       }
     }
+    setFromCoords(coords || null)
   }
   useEffect(() => {
     if (mode === 'VERSUS') {
@@ -125,6 +138,38 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
     gameHelper?.updateGame()
   }
 
+  const isValidMovement = (to: Coordinates): boolean => {
+    if (!selectedPiece || !game) return false
+    if (!fromCoords) {
+      return isValidRevive(game, {
+        side: selectedPiece.side,
+        pieceId: selectedPiece.id,
+        to,
+      })
+    } else {
+      return isValidMove(game, { from: fromCoords, to })
+    }
+  }
+
+  const movePiece = (to: Coordinates) => {
+    if (!selectedPiece || !game) return
+    if (!isValidMovement(to)) return
+    let _game = null
+    if (!fromCoords) {
+      _game = makeRevive(game, {
+        pieceId: selectedPiece.id,
+        side: selectedPiece.side,
+        to,
+      })
+    } else {
+      _game = makeMove(game, { from: fromCoords, to })
+    }
+    setGame(_game)
+    setAvailableMoves([])
+    setSelectedPiece(null)
+    // UpdateGame from Helper?
+  }
+
   return (
     <GameContext.Provider
       value={{
@@ -142,6 +187,8 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
         selectedPiece,
         selectPiece,
         availableMoves,
+        isValidMovement,
+        movePiece,
       }}
     >
       {children}

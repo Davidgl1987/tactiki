@@ -114,13 +114,11 @@ export function makeRevive(state: Game, revive: Revive): Game {
   const game = { ...state }
   if (!isValidRevive(game, revive)) return game
   const deadPieces = revive.side === 'L' ? game.deadPiecesL : game.deadPiecesR
-  const piece = deadPieces.find((piece) => piece.id === revive.pieceId)
+  const piece = deadPieces.find((piece) => piece?.id === revive.pieceId)
   if (piece) {
     game.board[revive.to.x][revive.to.y].push(piece)
-    deadPieces.splice(
-      deadPieces.findIndex((piece) => piece.id !== revive.pieceId),
-      1
-    )
+    deadPieces[deadPieces.findIndex((piece) => piece?.id === revive.pieceId)] =
+      null
   }
   if (game.phase === Phase.Setup) {
     if (game.deadPiecesL.length === 0 && game.deadPiecesR.length === 0) {
@@ -254,13 +252,13 @@ export function getAvailableRevives(state: Game, piece: Piece): Coordinates[] {
 export function isValidRevive(state: Game, revive: Revive): boolean {
   const deadPieces = revive.side === 'L' ? state.deadPiecesL : state.deadPiecesR
   // No es una pieza muerta válida del jugador
-  if (!deadPieces.find((piece) => piece.id === revive.pieceId)) {
+  if (!deadPieces.find((piece) => piece?.id === revive.pieceId)) {
     return false
   }
   // El jugador 0 sólo puede ponerlas en la primera fila
-  if (state.currentPlayer === 'L' && revive.to.y !== 0) return false
+  if (state.currentPlayer === 'L' && revive.to.x !== 0) return false
   // El jugador 1 sólo puede ponerlas en la última fila
-  if (state.currentPlayer === 'R' && revive.to.y !== 4) return false
+  if (state.currentPlayer === 'R' && revive.to.x !== 4) return false
   // Sólo se pueden poner 2 fichas por casilla
   if (state.board[revive.to.x][revive.to.y].length >= 2) return false
   // Durante el juego no se pueden revivir a menos q la casilla esté libre
@@ -326,9 +324,15 @@ export function getPhase(state: Game): Phase {
 export function canSelect(state: Game, piece: Piece): boolean {
   if (state.currentPlayer !== piece.side) return false
   if (state.phase === Phase.Setup) {
-    if (piece.side === 'L' && !state.deadPiecesL.find((p) => p.id === piece.id))
+    if (
+      piece.side === 'L' &&
+      !state.deadPiecesL.find((p) => p?.id === piece.id)
+    )
       return false
-    if (piece.side === 'R' && !state.deadPiecesR.find((p) => p.id === piece.id))
+    if (
+      piece.side === 'R' &&
+      !state.deadPiecesR.find((p) => p?.id === piece.id)
+    )
       return false
   }
   return true

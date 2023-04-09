@@ -1,14 +1,13 @@
-import { Vector3 } from 'three'
 import { ThreeEvent } from '@react-three/fiber'
 import { Center, Gltf, Text3D } from '@react-three/drei'
+
 import { Piece as PieceModel } from 'shared'
-import { COLORS } from '@/helpers'
+import { COLORS, CELL_HEIGHT } from '@/helpers'
 import { useGameContext } from '@/context'
-import { CELL_HEIGHT } from '../helpers/Colors'
 
 type Props = {
   piece: PieceModel
-  position: Vector3
+  position: { x: number; y: number; z: number }
   selected: boolean
   onPieceClick: () => void
 }
@@ -38,15 +37,15 @@ export const Piece: React.FC<Props> = ({
   }
 
   const z =
-    game.deadPiecesL.find((p) => p.id === piece.id) ||
-    game.deadPiecesR.find((p) => p.id === piece.id)
+    game.deadPiecesL.find((p) => p?.id === piece.id) ||
+    game.deadPiecesR.find((p) => p?.id === piece.id)
       ? -CELL_HEIGHT / 2
       : CELL_HEIGHT / 2
 
   return (
     <group
       onClick={handleClick}
-      position={[position.x, position.z * 0.65 + z, position.y]}
+      position={[position.x, position.z * 0.65 + z, -position.y]}
       rotation={[0, ((piece.side === 'L' ? 1 : -1) * Math.PI) / 2, 0]}
     >
       <Gltf

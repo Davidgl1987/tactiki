@@ -5,6 +5,7 @@ import {
 } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Perf } from 'r3f-perf'
+
 import { Board, Ui } from '@/components'
 import { useGameContext } from '@/context'
 
