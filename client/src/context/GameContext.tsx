@@ -30,7 +30,7 @@ interface Context {
   setSocket: React.Dispatch<React.SetStateAction<Socket | null>>
   game: Game | null
   setGame: React.Dispatch<React.SetStateAction<Game | null>>
-  updateGame: () => void
+  updateGame: (game: Game) => void
   side: Side | null
   setSide: React.Dispatch<React.SetStateAction<Side | null>>
   selectedPiece: Piece | null
@@ -134,8 +134,9 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
     })
   }
 
-  const updateGame = () => {
-    gameHelper?.updateGame()
+  const updateGame = (game: Game) => {
+    let gameUpdated = gameHelper?.updateGame(game)
+    if (gameUpdated) setGame(gameUpdated)
   }
 
   const isValidMovement = (to: Coordinates): boolean => {
@@ -164,10 +165,9 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
     } else {
       _game = makeMove(game, { from: fromCoords, to })
     }
-    setGame(_game)
     setAvailableMoves([])
     setSelectedPiece(null)
-    // UpdateGame from Helper?
+    updateGame(_game)
   }
 
   return (

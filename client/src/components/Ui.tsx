@@ -2,6 +2,7 @@ import { Box, Center } from '@chakra-ui/react'
 
 import { UiButton } from '@/components'
 import { useGameContext } from '@/context'
+import { Phase } from 'shared'
 
 export const Ui: React.FC = () => {
   const { game } = useGameContext()
@@ -53,6 +54,7 @@ export const Ui: React.FC = () => {
           Turns {game.currentPlayer === 'L' ? 'red' : 'blue'}{' '}
           {game.currentPlayerTurns}
         </Center>
+        <Center color="white">{Phase[game.phase]}</Center>
       </UiBottomCenter>
       <UiBottomRight>
         <UiButton onClick={() => console.log('click')}>

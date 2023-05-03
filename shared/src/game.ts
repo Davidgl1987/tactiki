@@ -216,14 +216,14 @@ export function getAvailableMoves(
   if (state.phase === Phase.Playing) {
     const cell = state.board[coord.x][coord.y]
     if (cell.length > 0 && cell[cell.length - 1].side === 'L') {
-      coords.push({ x: coord.x + 1, y: coord.y })
-      coords.push({ x: coord.x - 1, y: coord.y })
       coords.push({ x: coord.x, y: coord.y + 1 })
+      coords.push({ x: coord.x, y: coord.y - 1 })
+      coords.push({ x: coord.x + 1, y: coord.y })
     }
     if (cell.length > 0 && cell[cell.length - 1].side === 'R') {
-      coords.push({ x: coord.x + 1, y: coord.y })
-      coords.push({ x: coord.x - 1, y: coord.y })
+      coords.push({ x: coord.x, y: coord.y + 1 })
       coords.push({ x: coord.x, y: coord.y - 1 })
+      coords.push({ x: coord.x - 1, y: coord.y })
     }
     coords = coords.filter(
       (coord) =>

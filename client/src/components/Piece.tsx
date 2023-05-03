@@ -45,7 +45,7 @@ export const Piece: React.FC<Props> = ({
   return (
     <group
       onClick={handleClick}
-      position={[position.x, position.z * 0.65 + z, -position.y]}
+      position={[position.x, position.z * 0.68 + z, -position.y]}
       rotation={[0, ((piece.side === 'L' ? 1 : -1) * Math.PI) / 2, 0]}
     >
       <Gltf
